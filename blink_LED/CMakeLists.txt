@@ -35,7 +35,10 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(blink_LED blink_LED.c )
+add_executable(blink_LED 
+               blink_LED.c 
+               limit_switches.c
+)
 
 pico_set_program_name(blink_LED "blink_LED")
 pico_set_program_version(blink_LED "0.1")
