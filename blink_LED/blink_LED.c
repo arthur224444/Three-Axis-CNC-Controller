@@ -7,12 +7,12 @@ int main()
 
     typedef enum
     {
-        X_MAX = 0,
-        X_MIN = 1,
-        Y_MAX = 2,
-        Y_MIN = 3,
-        Z_MAX = 4,
-        Z_MIN = 5
+        X_MAX = 1,
+        X_MIN = 2,
+        Y_MAX = 3,
+        Y_MIN = 4,
+        Z_MAX = 5,
+        Z_MIN = 6
     } LimitSwitchGPIOS;
 
     int LimitSwitches[6] = {
