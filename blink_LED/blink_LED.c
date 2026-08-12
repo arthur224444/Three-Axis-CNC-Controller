@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "limit_switches.h"
+#include "led.h"
+
 
 int main()
 {
@@ -10,19 +12,17 @@ int main()
     initialise_limit_switches();
 
     // Initialise the LED output (GP16)
-    int LEDPin = 16;
-    gpio_init(LEDPin);
-    gpio_set_dir(LEDPin, GPIO_OUT);
+    initialise_led();
 
     while (true)
     {
         if (monitor_limit_switches() == 1)
         {
-            gpio_put(LEDPin, 1);
+            set_led(1);
         }
         else
         {
-            gpio_put(LEDPin, 0);
+            set_led(0);
         }
     }
 }

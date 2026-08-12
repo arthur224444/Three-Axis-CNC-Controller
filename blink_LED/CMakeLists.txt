@@ -38,6 +38,7 @@ pico_sdk_init()
 add_executable(blink_LED 
                blink_LED.c 
                limit_switches.c
+               led.c
 )
 
 pico_set_program_name(blink_LED "blink_LED")
