@@ -11,18 +11,18 @@ int main()
     // Initialise limit switches
     initialise_limit_switches();
 
-    // Initialise the LED output
-    initialise_led();
+    // Initialise the LED outputs
+    int LEDPin = initialise_led(0);
 
     while (true)
     {
         if (monitor_limit_switches() == 1)
         {
-            set_led(1);
+            set_led(LEDPin, 1);
         }
         else
         {
-            set_led(0);
+            set_led(LEDPin, 0);
         }
     }
 }

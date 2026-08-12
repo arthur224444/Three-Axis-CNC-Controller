@@ -1,8 +1,8 @@
 #ifndef LED_H
 #define LED_H
 
-void initialise_led(void);
+int initialise_led(int);
 
-void set_led(int);
+void set_led(int, int);
 
 #endif

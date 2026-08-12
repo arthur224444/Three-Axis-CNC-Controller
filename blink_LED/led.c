@@ -3,19 +3,18 @@
 
 // The LED must be connected to pin 16 on the Pi Pico 2W
 
-int LEDPin = 0;
-
-void initialise_led(void) {
-    gpio_init(LEDPin);
-    gpio_set_dir(LEDPin, GPIO_OUT);
+int initialise_led(int GPIOPin) {
+    gpio_init(GPIOPin);
+    gpio_set_dir(GPIOPin, GPIO_OUT);
+    return GPIOPin;
 }
 
-void set_led(int on) {
+void set_led(int GPIOPin, int on) {
     if (on == 1) {
-        gpio_put(LEDPin, 1);
+        gpio_put(GPIOPin, 1);
     }
     else
     {
-        gpio_put(LEDPin, 0);
+        gpio_put(GPIOPin, 0);
     }
 }
