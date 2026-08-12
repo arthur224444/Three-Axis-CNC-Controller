@@ -12,17 +12,17 @@ int main()
     initialise_limit_switches();
 
     // Initialise the LED outputs
-    int LEDPin = initialise_led(0);
+    int spindleMotorPin = initialise_led(0);
 
     while (true)
     {
         if (monitor_limit_switches() == 1)
         {
-            set_led(LEDPin, 1);
+            set_led(spindleMotorPin, 1);
         }
         else
         {
-            set_led(LEDPin, 0);
+            set_led(spindleMotorPin, 0);
         }
     }
 }
