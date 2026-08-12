@@ -11,7 +11,7 @@ int main()
     // Initialise limit switches
     initialise_limit_switches();
 
-    // Initialise the LED output (GP16)
+    // Initialise the LED output
     initialise_led();
 
     while (true)
