@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include "axis.h"
-#include "limit_switches.h"
 #include "pico/stdlib.h"
 #include "pin.h"
-// Maybe limit_switches should be multiple switches but I'm not sure
 
 // What is this file going to do?:
 // - Monitor for the limit switches being reached (both of them)

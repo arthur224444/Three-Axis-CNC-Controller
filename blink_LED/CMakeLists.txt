@@ -37,7 +37,6 @@ pico_sdk_init()
 
 add_executable(blink_LED 
                blink_LED.c 
-               limit_switches.c
                pin.c
                axis.c
                x_axis.c
