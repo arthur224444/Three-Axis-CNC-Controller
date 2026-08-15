@@ -24,7 +24,7 @@ void initialise_axis_pins(int stepper_pul_pin, int stepper_dir_pin, int stepper_
     initialise_pin(limit_switch_min_pin);
 }
 
-int check_limit_switches(max_limit_switch_pin, max_limit_switch_position, min_limit_switch_pin, min_limit_switch_position, expected_position) {
+int check_limit_switches(int max_limit_switch_pin, int max_limit_switch_position, int min_limit_switch_pin, int min_limit_switch_position, int expected_position) {
     // Returns the position of the axis based on the limit switch if either limit switch is pressed, else returns the axis position it's provided with
     // Note, returning the expected position does not prove that the axis is actually in the expected position, it just means that neither limit switch 
     // was reached and therefore it might be in the right place but if it isn't the limit switches wouldn't be able to tell.
