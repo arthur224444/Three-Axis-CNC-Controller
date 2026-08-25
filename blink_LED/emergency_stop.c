@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 static int machine_emergency_stopped = 0;
 
 void emergency_stop() {

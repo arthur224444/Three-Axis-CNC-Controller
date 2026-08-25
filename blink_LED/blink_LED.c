@@ -22,10 +22,7 @@ int main() {
 
         sleep_ms(1000);
 
-        // Temporary
-        reset_emergency_stop();
-
-        if (check_emergency_stop == 0) {
+        if (check_emergency_stop() == 0) {
 
             for (int i = 0; i < SEQUENCE_LENGTH; i++) {
                 current_step = sequence[i];
