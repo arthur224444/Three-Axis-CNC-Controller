@@ -2,6 +2,7 @@
 #include "axis.h"
 #include "pico/stdlib.h"
 #include "pin.h"
+#include "emergency_stop.h"
 
 // What is this file going to do?:
 // - Monitor for the limit switches being reached (both of them)
@@ -15,11 +16,11 @@ int PUL_TIME_MS = 1;
 int DIR_TIME_MS  = 5;
 
 void initialise_axis_pins(int stepper_pul_pin, int stepper_dir_pin, int stepper_ena_pin, int limit_switch_max_pin, int limit_switch_min_pin) {
-    initialise_pin(stepper_pul_pin);
-    initialise_pin(stepper_dir_pin);
-    initialise_pin(stepper_ena_pin);
-    initialise_pin(limit_switch_max_pin);
-    initialise_pin(limit_switch_min_pin);
+    initialise_output_pin(stepper_pul_pin);
+    initialise_output_pin(stepper_dir_pin);
+    initialise_output_pin(stepper_ena_pin);
+    initialise_input_pin(limit_switch_max_pin);
+    initialise_input_pin(limit_switch_min_pin);
 }
 
 int check_limit_switches(int max_limit_switch_pin, int max_limit_switch_position, int min_limit_switch_pin, int min_limit_switch_position, int expected_position) {
@@ -30,13 +31,13 @@ int check_limit_switches(int max_limit_switch_pin, int max_limit_switch_position
     // Check the limit switches
     if (gpio_get(max_limit_switch_pin) == 0)
     {
-        return max_limit_switch_position;
+        return 2;
     }
     else if (gpio_get(min_limit_switch_pin) == 0) {
-        return min_limit_switch_position;
+        return 1;
     }
     else {
-        return expected_position;
+        return 0;
     }
 }
 
@@ -52,48 +53,55 @@ StepReturnData step(AxisInfo axis_info, int pins_initialised, int position, int 
 
     // Check the limit switches
     int position_check = check_limit_switches(axis_info.max_limit_switch_pin, axis_info.max_limit_switch_position, axis_info.min_limit_switch_pin, axis_info.min_limit_switch_position, position);
-    if (position_check != position) {
-        printf("Error: Expected actual_position %d and actual actual_position %d do not match!\n", position, position_check);
-        position = position_check;
-        skip = 1;
+    if (position_check != 0) {
+        printf("Error: Limit switch reached! Activating emergency stop!\n");
+        emergency_stop();
     }
 
-    // Check the step isn't going to exceeed the max or min positions for the axis
-    if ((direction == 1 && position == axis_info.max_limit_switch_position) || (direction == -1 && position == axis_info.min_limit_switch_position)) {
-        skip = 1;
-        printf("Error: Making this step would crash the machine into an end of the %s axis.\n", axis_info.axis_label);
-    }
+    if (check_emergency_stop() == 0) {
 
-    if (skip == 0) {
-        // Enable the motor
-        set_pin(axis_info.ena_pin, 0);
-        sleep_ms(ENA_SETTLE_TIME_MS);
-
-        // Set direction
-        if (direction == 1) {
-            set_pin(axis_info.dir_pin, 1);
+        // Check the step isn't going to exceeed the max or min positions for the axis
+        if ((direction == 1 && position == axis_info.max_limit_switch_position) || (direction == -1 && position == axis_info.min_limit_switch_position)) {
+            skip = 1;
+            printf("Error: Making this step would crash the machine into an end of the %s axis.\n", axis_info.axis_label);
         }
+
+        if (skip == 0) {
+            // Enable the motor
+            set_pin(axis_info.ena_pin, 0);
+            sleep_ms(ENA_SETTLE_TIME_MS);
+
+            // Set direction
+            if (direction == 1) {
+                set_pin(axis_info.dir_pin, 1);
+            }
+            else {
+                set_pin(axis_info.dir_pin, 0);
+            }
+            sleep_ms(DIR_TIME_MS);
+
+            // Step the motor
+            set_pin(axis_info.pul_pin, 1);
+            sleep_ms(PUL_TIME_MS);
+            set_pin(axis_info.pul_pin, 0);
+
+            // Disable the motor
+            set_pin(axis_info.ena_pin, 1);
+            sleep_ms(ENA_SETTLE_TIME_MS);
+
+            // Update position 
+            if (direction == 1) {position++;}
+            else {position--;}
+        }
+
         else {
-            set_pin(axis_info.dir_pin, 0);
+            printf("Step skipped due to errors.\n\n");
         }
-        sleep_ms(DIR_TIME_MS);
-
-        // Step the motor
-        set_pin(axis_info.dir_pin, 1);
-        sleep_ms(PUL_TIME_MS);
-        set_pin(axis_info.pul_pin, 0);
-
-        // Disable the motor
-        set_pin(axis_info.ena_pin, 1);
-        sleep_ms(ENA_SETTLE_TIME_MS);
-
-        // Update position 
-        if (direction == 1) {position++;}
-        else {position--;}
+    
     }
 
     else {
-        printf("Step skipped due to errors.\n\n");
+        printf("Emergency stop reached so step was skipped\n");
     }
 
     // Assemble return data

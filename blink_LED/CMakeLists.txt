@@ -49,7 +49,7 @@ pico_set_program_version(blink_LED "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(blink_LED 0)
-pico_enable_stdio_usb(blink_LED 0)
+pico_enable_stdio_usb(blink_LED 1)
 
 # Add the standard library to the build
 target_link_libraries(blink_LED
