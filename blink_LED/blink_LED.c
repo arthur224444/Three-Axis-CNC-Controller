@@ -1,6 +1,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "x_axis.h"
+#include "y_axis.h"
+#include "z_axis.h"
 #include "pico/stdlib.h"
 #include "emergency_stop.h"
 #include "limit_switches.h"
@@ -13,7 +15,7 @@
 int main() {
     stdio_init_all();
 
-    char sequence[SEQUENCE_LENGTH + 1] = "Xxnnnnnnnn";
+    char sequence[SEQUENCE_LENGTH + 1] = "XxYyZznnnn";
     char current_step;
     int limit_switch_reached = 0;
 
@@ -42,15 +44,19 @@ int main() {
 
                 }
                 else if (current_step == 'Y') {
+                    step_y(1);
 
                 }
                 else if (current_step == 'y') {
+                    step_y(-1);
 
                 }
                 else if (current_step == 'Z') {
+                    step_z(1);
 
                 }
                 else if (current_step == 'z') {
+                    step_z(-1);
 
                 }
                 else {

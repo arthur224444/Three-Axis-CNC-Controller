@@ -40,6 +40,8 @@ add_executable(blink_LED
                pin.c
                axis.c
                x_axis.c
+               y_axis.c
+               z_axis.c
                emergency_stop.c
                limit_switches.c
 )
