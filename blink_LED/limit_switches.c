@@ -2,12 +2,12 @@
 #include "pico/stdlib.h"
 
 
-static X_MIN_GPIO_PIN = 1;
-static X_MAX_GPIO_PIN = 2;
-static Y_MIN_GPIO_PIN = 3;
-static Y_MAX_GPIO_PIN = 4;
-static Z_MIN_GPIO_PIN = 5;
-static Z_MAX_GPIO_PIN = 6;
+static const int X_MIN_GPIO_PIN = 1;
+static const int X_MAX_GPIO_PIN = 2;
+static const int Y_MIN_GPIO_PIN = 3;
+static const int Y_MAX_GPIO_PIN = 4;
+static const int Z_MIN_GPIO_PIN = 5;
+static const int Z_MAX_GPIO_PIN = 6;
 
 static void initialise_limit_switch_pins() {
     initialise_input_pin(X_MIN_GPIO_PIN);
