@@ -28,15 +28,15 @@ set(PICO_BOARD pico2_w CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(blink_LED C CXX ASM)
+project(three_axes_cnc_controller C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(blink_LED 
-               blink_LED.c 
+add_executable(three_axes_cnc_controller 
+               three_axes_cnc_controller.c 
                pin.c
                axis.c
                x_axis.c
@@ -46,26 +46,26 @@ add_executable(blink_LED
                limit_switches.c
 )
 
-pico_set_program_name(blink_LED "blink_LED")
-pico_set_program_version(blink_LED "0.1")
+pico_set_program_name(three_axes_cnc_controller "Three Axes CNC Controller")
+pico_set_program_version(three_axes_cnc_controller "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(blink_LED 0)
-pico_enable_stdio_usb(blink_LED 1)
+pico_enable_stdio_uart(three_axes_cnc_controller 0)
+pico_enable_stdio_usb(three_axes_cnc_controller 1)
 
 # Add the standard library to the build
-target_link_libraries(blink_LED
+target_link_libraries(three_axes_cnc_controller
         pico_stdlib)
 
 # Add the standard include files to the build
-target_include_directories(blink_LED PRIVATE
+target_include_directories(three_axes_cnc_controller PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
 )
 
 # Add any user requested libraries
-target_link_libraries(blink_LED 
+target_link_libraries(three_axes_cnc_controller 
         
         )
 
-pico_add_extra_outputs(blink_LED)
+pico_add_extra_outputs(three_axes_cnc_controller)
 
