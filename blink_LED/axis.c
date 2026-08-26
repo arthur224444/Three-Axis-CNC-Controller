@@ -15,30 +15,10 @@ int ENA_SETTLE_TIME_MS = 250;
 int PUL_TIME_MS = 1;
 int DIR_TIME_MS  = 5;
 
-void initialise_axis_pins(int stepper_pul_pin, int stepper_dir_pin, int stepper_ena_pin, int limit_switch_max_pin, int limit_switch_min_pin) {
+void initialise_axis_pins(int stepper_pul_pin, int stepper_dir_pin, int stepper_ena_pin) {
     initialise_output_pin(stepper_pul_pin);
     initialise_output_pin(stepper_dir_pin);
     initialise_output_pin(stepper_ena_pin);
-    initialise_input_pin(limit_switch_max_pin);
-    initialise_input_pin(limit_switch_min_pin);
-}
-
-int check_limit_switches(int max_limit_switch_pin, int max_limit_switch_position, int min_limit_switch_pin, int min_limit_switch_position, int expected_position) {
-    // Returns the position of the axis based on the limit switch if either limit switch is pressed, else returns the axis position it's provided with
-    // Note, returning the expected position does not prove that the axis is actually in the expected position, it just means that neither limit switch 
-    // was reached and therefore it might be in the right place but if it isn't the limit switches wouldn't be able to tell.
-
-    // Check the limit switches
-    if (gpio_get(max_limit_switch_pin) == 0)
-    {
-        return 2;
-    }
-    else if (gpio_get(min_limit_switch_pin) == 0) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
 }
 
 
@@ -47,24 +27,14 @@ StepReturnData step(AxisInfo axis_info, int pins_initialised, int position, int 
 
     // Initialise the pins if they're not already initialised
     if (pins_initialised == 0) {
-        initialise_axis_pins(axis_info.pul_pin, axis_info.dir_pin, axis_info.ena_pin, axis_info.max_limit_switch_pin, axis_info.min_limit_switch_pin);
+        initialise_axis_pins(axis_info.pul_pin, axis_info.dir_pin, axis_info.ena_pin);
         pins_initialised = 1;
-    }
-
-    // Check the limit switches
-    int position_check = check_limit_switches(axis_info.max_limit_switch_pin, axis_info.max_limit_switch_position, axis_info.min_limit_switch_pin, axis_info.min_limit_switch_position, position);
-    if (position_check != 0) {
-        printf("Error: Limit switch reached! Activating emergency stop!\n");
-        emergency_stop();
     }
 
     if (check_emergency_stop() == 0) {
 
         // Check the step isn't going to exceeed the max or min positions for the axis
-        if ((direction == 1 && position == axis_info.max_limit_switch_position) || (direction == -1 && position == axis_info.min_limit_switch_position)) {
-            skip = 1;
-            printf("Error: Making this step would crash the machine into an end of the %s axis.\n", axis_info.axis_label);
-        }
+        // TODO Implement this, setting skip to 1 if it would exceed the axis
 
         if (skip == 0) {
             // Enable the motor

@@ -43,6 +43,7 @@ add_executable(blink_LED
                y_axis.c
                z_axis.c
                emergency_stop.c
+               limit_switches.c
 )
 
 pico_set_program_name(blink_LED "blink_LED")

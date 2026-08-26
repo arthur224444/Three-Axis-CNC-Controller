@@ -3,6 +3,8 @@
 #include "x_axis.h"
 #include "pico/stdlib.h"
 #include "emergency_stop.h"
+#include "limit_switches.h"
+
 
 
 #define SEQUENCE_LENGTH 10
@@ -11,20 +13,24 @@
 int main() {
     stdio_init_all();
 
-    printf("Here");
-
     char sequence[SEQUENCE_LENGTH + 1] = "Xxnnnnnnnn";
     char current_step;
-
-    printf("Here2");
+    int limit_switch_reached = 0;
 
     while (true) {
 
         sleep_ms(1000);
 
-        if (check_emergency_stop() == 0) {
+        for (int i = 0; i < SEQUENCE_LENGTH; i++) {
 
-            for (int i = 0; i < SEQUENCE_LENGTH; i++) {
+            limit_switch_reached = check_limit_switches();
+            if (limit_switch_reached == 1) {
+                emergency_stop();
+            }
+
+            if (check_emergency_stop() == 0) {
+
+            
                 current_step = sequence[i];
 
                 if (current_step == 'X') {
@@ -50,12 +56,12 @@ int main() {
                 else {
 
                 }
-
             }
 
-        }
-        else {
-            printf("Emergency stop has stopped the step from being made\n");
+            else {
+                printf("Emergency stop has stopped the step from being made\n");
+            }
+
         }
     }
 

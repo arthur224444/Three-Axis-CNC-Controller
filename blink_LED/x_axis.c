@@ -6,10 +6,6 @@ static const AxisInfo axis_info = {
     .pul_pin = 7,
     .dir_pin = 8,
     .ena_pin = 9,
-    .min_limit_switch_pin = 1,
-    .max_limit_switch_pin = 2,
-    .min_limit_switch_position = 0,
-    .max_limit_switch_position = 10,
     .axis_label = 'X'
 };
 
