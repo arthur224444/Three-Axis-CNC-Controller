@@ -28,15 +28,15 @@ set(PICO_BOARD pico2_w CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(three_axes_cnc_controller C CXX ASM)
+project(pico2_w C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(three_axes_cnc_controller 
-               three_axes_cnc_controller.c 
+add_executable(pico2_w 
+               pico2_w.c 
                pin.c
                axis.c
                x_axis.c
@@ -46,28 +46,28 @@ add_executable(three_axes_cnc_controller
                limit_switches.c
 )
 
-pico_set_program_name(three_axes_cnc_controller "Three Axes CNC Controller")
-pico_set_program_version(three_axes_cnc_controller "0.1")
+pico_set_program_name(pico2_w "pico2_w")
+pico_set_program_version(pico2_w "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(three_axes_cnc_controller 0)
-pico_enable_stdio_usb(three_axes_cnc_controller 1)
+pico_enable_stdio_uart(pico2_w 0)
+pico_enable_stdio_usb(pico2_w 1)
 
 # Add the standard library to the build
-target_link_libraries(three_axes_cnc_controller
+target_link_libraries(pico2_w
         pico_stdlib
         pico_multicore
         hardware_spi)
 
 # Add the standard include files to the build
-target_include_directories(three_axes_cnc_controller PRIVATE
+target_include_directories(pico2_w PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
 )
 
 # Add any user requested libraries
-target_link_libraries(three_axes_cnc_controller 
+target_link_libraries(pico2_w 
         
         )
 
-pico_add_extra_outputs(three_axes_cnc_controller)
+pico_add_extra_outputs(pico2_w)
 
