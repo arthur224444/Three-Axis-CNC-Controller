@@ -51,17 +51,19 @@ StepReturnData step(AxisInfo axis_info, int pins_initialised, int position, int 
             sleep_ms(DIR_TIME_MS);
 
             // Step the motor
-            set_pin(axis_info.pul_pin, 1);
-            sleep_ms(PUL_TIME_MS);
-            set_pin(axis_info.pul_pin, 0);
+            if (check_emergency_stop() == 0) {  // Check for emergency stop in case it's been triggered since the last check
+                set_pin(axis_info.pul_pin, 1);
+                sleep_ms(PUL_TIME_MS);
+                set_pin(axis_info.pul_pin, 0);
+
+                // Update position 
+                if (direction == 1) {position++;}
+                else {position--;}
+            }
 
             // Disable the motor
             set_pin(axis_info.ena_pin, 1);
             sleep_ms(ENA_SETTLE_TIME_MS);
-
-            // Update position 
-            if (direction == 1) {position++;}
-            else {position--;}
         }
 
         else {

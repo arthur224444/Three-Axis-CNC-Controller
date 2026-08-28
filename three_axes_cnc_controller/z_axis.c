@@ -23,4 +23,3 @@ int step_z(int direction) {
  
     return position;
 }
-

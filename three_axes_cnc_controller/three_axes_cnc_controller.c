@@ -1,34 +1,57 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdint.h>
+
+#include "hardware/spi.h"
+#include "pico/stdlib.h"
+#include "pico/multicore.h"
+
 #include "x_axis.h"
 #include "y_axis.h"
 #include "z_axis.h"
-#include "pico/stdlib.h"
 #include "emergency_stop.h"
 #include "limit_switches.h"
 
 
-
 #define SEQUENCE_LENGTH 10
+uint8_t received_data[10];  // A little box in memory for holding 10 bytes received over SPI
 
 
 int main() {
     stdio_init_all();
 
-    char sequence[SEQUENCE_LENGTH + 1] = "XxYyZznnnn";
-    char current_step;
-    int limit_switch_reached = 0;
+    gpio_set_function(18, GPIO_FUNC_SPI);
+    gpio_set_function(19, GPIO_FUNC_SPI);
+    gpio_set_function(20, GPIO_FUNC_SPI);
+    gpio_set_function(21, GPIO_FUNC_SPI);
+
+    spi_init(spi0, 0);
+    spi_set_slave(spi0, true);
 
     while (true) {
+        // SPI code
+        spi_read_blocking(spi0, 0, received_data, 10);
+
+        printf("%.*s\n", 10, received_data);
+    }
+
+    /*
+    stdio_init_all();
+
+    multicore_launch_core1(monitor_limit_switches);
+
+    char sequence[SEQUENCE_LENGTH + 1];
+    int sequence_len;
+    char current_step;
+
+    while (true) {
+        strcpy(sequence, "XxYyZznnnn");
+        sequence_len = strlen(sequence);
 
         sleep_ms(1000);
 
         for (int i = 0; i < SEQUENCE_LENGTH; i++) {
-
-            limit_switch_reached = check_limit_switches();
-            if (limit_switch_reached == 1) {
-                emergency_stop();
-            }
 
             if (check_emergency_stop() == 0) {
 
@@ -70,6 +93,7 @@ int main() {
 
         }
     }
+    */
 
 
     return 0;

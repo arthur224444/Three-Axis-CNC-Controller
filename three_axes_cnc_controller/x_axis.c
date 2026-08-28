@@ -1,16 +1,16 @@
-#include "y_axis.h"
+#include "x_axis.h"
 #include "axis.h"
 
 
 static const AxisInfo axis_info = {
-    .pul_pin = 10,
-    .dir_pin = 11,
-    .ena_pin = 12,
-    .axis_label = 'Y'
+    .pul_pin = 7,
+    .dir_pin = 8,
+    .ena_pin = 9,
+    .axis_label = 'X'
 };
 
 
-int step_y(int direction) {
+int step_x(int direction) {
     // Move motor in the X axis
 
     static int pins_initialised = 0;
@@ -23,4 +23,3 @@ int step_y(int direction) {
  
     return position;
 }
-

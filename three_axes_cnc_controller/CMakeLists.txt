@@ -55,7 +55,9 @@ pico_enable_stdio_usb(three_axes_cnc_controller 1)
 
 # Add the standard library to the build
 target_link_libraries(three_axes_cnc_controller
-        pico_stdlib)
+        pico_stdlib
+        pico_multicore
+        hardware_spi)
 
 # Add the standard include files to the build
 target_include_directories(three_axes_cnc_controller PRIVATE
