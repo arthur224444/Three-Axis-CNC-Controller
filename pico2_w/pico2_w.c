@@ -16,7 +16,7 @@
 
 
 #define SEQUENCE_LENGTH 10
-uint8_t received_data[10];  // A little box in memory for holding 10 bytes received over SPI
+uint8_t sequence[SEQUENCE_LENGTH];  // A little box in memory for holding 10 bytes received over SPI
 
 
 int main() {
@@ -25,30 +25,15 @@ int main() {
         sleep_ms(10);
     }
 
-    while (true) {
-        for (int i = 0; i < 10; i++) {
-            received_data[i] = (uint8_t)getchar();
-        }
-        for (int i = 0; i < 10; i++) {
-            putchar(received_data[i]);
-        }
-        fflush(stdout);
-    }
-
-    /*
-    stdio_init_all();
-
     multicore_launch_core1(monitor_limit_switches);
 
-    char sequence[SEQUENCE_LENGTH + 1];
-    int sequence_len;
     char current_step;
 
     while (true) {
-        strcpy(sequence, "XxYyZznnnn");
-        sequence_len = strlen(sequence);
 
-        sleep_ms(1000);
+        for (int i = 0; i < SEQUENCE_LENGTH; i++) {
+            sequence[i] = (uint8_t)getchar();
+        }
 
         for (int i = 0; i < SEQUENCE_LENGTH; i++) {
 
@@ -89,11 +74,15 @@ int main() {
             else {
                 printf("Emergency stop has stopped the step from being made\n");
             }
-
         }
-    }
-    */
 
+        for (int i = 0; i < SEQUENCE_LENGTH; i++) {
+            putchar(sequence[i]);
+        }
+        
+        fflush(stdout);
+
+    }
 
     return 0;
 }

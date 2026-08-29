@@ -4,7 +4,7 @@ import serial
 ser = serial.Serial("/dev/ttyACM0", 115200, timeout=2)
 time.sleep(2)  # Pico resets when the port is opened
 
-message = "HELLO"
+message = "XxYyZz"
 data = message.ljust(10, "n")[:10].encode("ascii")
 
 try:
