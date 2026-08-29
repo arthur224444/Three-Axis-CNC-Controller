@@ -12,6 +12,10 @@ message = "HELLO"
 # Make exactly 10 bytes
 data = message.ljust(10, "n")[:10].encode("ascii")
 
-spi.xfer2(data)
-
-spi.close()
+try:
+    while True:
+        print("Sending data: ", data)
+        spi.xfer2(data)
+        time.sleep(2)
+finally:
+    spi.close()
