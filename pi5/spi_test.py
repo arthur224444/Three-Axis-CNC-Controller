@@ -16,6 +16,6 @@ try:
     while True:
         print("Sending data: ", data)
         spi.xfer2(data)
-        time.sleep(2)
+        #time.sleep(2)
 finally:
     spi.close()
