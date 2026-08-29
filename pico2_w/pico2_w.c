@@ -5,6 +5,7 @@
 
 #include "hardware/spi.h"
 #include "pico/stdlib.h"
+#include "pico/stdio_usb.h"
 #include "pico/multicore.h"
 
 #include "x_axis.h"
@@ -20,20 +21,18 @@ uint8_t received_data[10];  // A little box in memory for holding 10 bytes recei
 
 int main() {
     stdio_init_all();
-
-    gpio_set_function(18, GPIO_FUNC_SPI);
-    gpio_set_function(19, GPIO_FUNC_SPI);
-    gpio_set_function(20, GPIO_FUNC_SPI);
-    gpio_set_function(21, GPIO_FUNC_SPI);
-
-    spi_init(spi0, 0);
-    spi_set_slave(spi0, true);
+    while (!stdio_usb_connected()) {
+        sleep_ms(10);
+    }
 
     while (true) {
-        // SPI code
-        spi_read_blocking(spi0, 0, received_data, 10);
-
-        printf("%.*s\n", 10, received_data);
+        for (int i = 0; i < 10; i++) {
+            received_data[i] = (uint8_t)getchar();
+        }
+        for (int i = 0; i < 10; i++) {
+            putchar(received_data[i]);
+        }
+        fflush(stdout);
     }
 
     /*

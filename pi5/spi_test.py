@@ -1,21 +1,18 @@
-import spidev
 import time
+import serial
 
-spi = spidev.SpiDev()
-
-spi.open(0, 0)       # SPI bus 0, CE0
-spi.max_speed_hz = 1
-spi.mode = 0
+ser = serial.Serial("/dev/ttyACM0", 115200, timeout=2)
+time.sleep(2)  # Pico resets when the port is opened
 
 message = "HELLO"
-
-# Make exactly 10 bytes
 data = message.ljust(10, "n")[:10].encode("ascii")
 
 try:
     while True:
         print("Sending data: ", data)
-        spi.xfer2(data)
-        #time.sleep(2)
+        ser.write(data)
+        response = ser.read(10)
+        print("Received: ", response)
+        time.sleep(2)
 finally:
-    spi.close()
+    ser.close()
