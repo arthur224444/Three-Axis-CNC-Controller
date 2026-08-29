@@ -4,7 +4,7 @@ import time
 spi = spidev.SpiDev()
 
 spi.open(0, 0)       # SPI bus 0, CE0
-spi.max_speed_hz = 50000
+spi.max_speed_hz = 1
 spi.mode = 0
 
 message = "HELLO"
