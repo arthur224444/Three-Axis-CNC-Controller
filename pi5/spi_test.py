@@ -11,7 +11,7 @@ try:
     while True:
         print("Sending data: ", data)
         ser.write(data)
-        response = ser.read(10)
+        response = ser.read(1)
         print("Received: ", response)
         time.sleep(2)
 finally:

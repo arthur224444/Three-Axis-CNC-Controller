@@ -35,6 +35,8 @@ int main() {
             sequence[i] = (uint8_t)getchar();
         }
 
+        char success = '1';
+
         for (int i = 0; i < SEQUENCE_LENGTH; i++) {
 
             if (check_emergency_stop() == 0) {
@@ -72,14 +74,11 @@ int main() {
             }
 
             else {
-                printf("Emergency stop has stopped the step from being made\n");
+                success = '0';
             }
         }
 
-        for (int i = 0; i < SEQUENCE_LENGTH; i++) {
-            putchar(sequence[i]);
-        }
-        
+        putchar(success);
         fflush(stdout);
 
     }
