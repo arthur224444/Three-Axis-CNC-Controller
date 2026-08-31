@@ -8,9 +8,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-# Default Vite outDir. Real production output is ../pi5/static (committed).
-dist
-dist-ssr
 *.local
 
 # Editor directories and files
