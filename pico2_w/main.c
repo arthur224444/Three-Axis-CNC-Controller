@@ -39,7 +39,12 @@ int main() {
         char success = '1';
 
         for (int i = 0; i < SEQUENCE_LENGTH; i++) {
-            
+
+            if (check_emergency_stop() == 1) {
+                spindle_on_off(0);
+
+            }
+
             current_step = sequence[i];
 
             if (current_step == 'X') {
@@ -67,6 +72,7 @@ int main() {
 
             }
 
+            // Force steps, ignoring emergency_stop
             else if (current_step == 'A') {
                 step_x(1, 1);
             
@@ -91,19 +97,26 @@ int main() {
                 step_z(-1, 1);
             
             }
+
+            // Spindle on/off
             else if (current_step == 'S') {
-                spindle_on_off(1);
+                if (check_emergency_stop() == 0) {
+                    spindle_on_off(1);
+                }
 
             }
             else if (current_step == 's') {
                 spindle_on_off(0);
 
             }
+
+            // Reset emergency stop
             else if (current_step == 'R') {
                 reset_emergency_stop();
 
             }
 
+            
             else {
                 spindle_on_off(0);
 
