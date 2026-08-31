@@ -17,6 +17,14 @@ int spindle_on_off(int enable) {
         pins_initialised = 1;
     }
 
-    set_pin(SPINDLE_ENABLE_PIN, enable);
+    if (enable == 1) {
+        if check_emergency_stop() == 0) {
+            set_pin(SPINDLE_ENABLE_PIN, 1);
+        }
+    }
+    else {
+        set_pin(SPINDLE_ENABLE_PIN, 0);
+    }
+
     return 1;
 }

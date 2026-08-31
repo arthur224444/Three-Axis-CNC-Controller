@@ -10,14 +10,14 @@ static const AxisInfo axis_info = {
 };
 
 
-int step_z(int direction) {
+int step_z(int direction, int force_step) {
     // Move motor in the X axis
 
     static int pins_initialised = 0;
     static int position = 0;
 
     // Make the step
-    StepReturnData step_data = step(axis_info, pins_initialised, position, direction);
+    StepReturnData step_data = step(axis_info, pins_initialised, position, direction, force_step);
     pins_initialised = step_data.pins_initialised;
     position = step_data.position;
  

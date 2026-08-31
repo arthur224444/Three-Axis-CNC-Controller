@@ -39,47 +39,69 @@ int main() {
         char success = '1';
 
         for (int i = 0; i < SEQUENCE_LENGTH; i++) {
-
-            if (check_emergency_stop() == 0) {
-
             
-                current_step = sequence[i];
+            current_step = sequence[i];
 
-                if (current_step == 'X') {
-                    step_x(1);
+            if (current_step == 'X') {
+                step_x(1, 0);
 
-                }
-                else if (current_step == 'x') {
-                    step_x(-1);
+            }
+            else if (current_step == 'x') {
+                step_x(-1, 0);
 
-                }
-                else if (current_step == 'Y') {
-                    step_y(1);
+            }
+            else if (current_step == 'Y') {
+                step_y(1, 0);
 
-                }
-                else if (current_step == 'y') {
-                    step_y(-1);
+            }
+            else if (current_step == 'y') {
+                step_y(-1, 0);
 
-                }
-                else if (current_step == 'Z') {
-                    step_z(1);
+            }
+            else if (current_step == 'Z') {
+                step_z(1, 0);
 
-                }
-                else if (current_step == 'z') {
-                    step_z(-1);
+            }
+            else if (current_step == 'z') {
+                step_z(-1, 0);
 
-                }
-                else if (current_step == 'S') {
-                    spindle_on_off(1);
+            }
 
-                }
-                else if (current_step == 's') {
-                    spindle_on_off(0);
+            else if (current_step == 'A') {
+                step_x(1, 1);
+            
+            }
+            else if (current_step == 'a') {
+                step_x(-1, 1);
+            
+            }
+            else if (current_step == 'B') {
+                step_y(1, 1);
+            
+            }
+            else if (current_step == 'b') {
+                step_y(-1, 1);
+            
+            }
+            else if (current_step == 'C') {
+                step_z(1, 1);
+            
+            }
+            else if (current_step == 'c') {
+                step_z(-1, 1);
+            
+            }
+            else if (current_step == 'S') {
+                spindle_on_off(1);
 
-                }
-                else {
+            }
+            else if (current_step == 's') {
+                spindle_on_off(0);
 
-                }
+            }
+            else if (current_step == 'R') {
+                reset_emergency_stop();
+
             }
 
             else {

@@ -22,7 +22,7 @@ void initialise_axis_pins(int stepper_pul_pin, int stepper_dir_pin, int stepper_
 }
 
 
-StepReturnData step(AxisInfo axis_info, int pins_initialised, int position, int direction) {
+StepReturnData step(AxisInfo axis_info, int pins_initialised, int position, int direction, int force_step) {
     int skip = 0;
 
     // Initialise the pins if they're not already initialised
@@ -31,44 +31,35 @@ StepReturnData step(AxisInfo axis_info, int pins_initialised, int position, int 
         pins_initialised = 1;
     }
 
-    if (check_emergency_stop() == 0) {
+    if (check_emergency_stop() == 0 || force_step == 1) {
 
-        // Check the step isn't going to exceeed the max or min positions for the axis
-        // TODO Implement this, setting skip to 1 if it would exceed the axis
+        // Enable the motor
+        set_pin(axis_info.ena_pin, 0);
+        sleep_ms(ENA_SETTLE_TIME_MS);
 
-        if (skip == 0) {
-            // Enable the motor
-            set_pin(axis_info.ena_pin, 0);
-            sleep_ms(ENA_SETTLE_TIME_MS);
-
-            // Set direction
-            if (direction == 1) {
-                set_pin(axis_info.dir_pin, 1);
-            }
-            else {
-                set_pin(axis_info.dir_pin, 0);
-            }
-            sleep_ms(DIR_TIME_MS);
-
-            // Step the motor
-            if (check_emergency_stop() == 0) {  // Check for emergency stop in case it's been triggered since the last check
-                set_pin(axis_info.pul_pin, 1);
-                sleep_ms(PUL_TIME_MS);
-                set_pin(axis_info.pul_pin, 0);
-
-                // Update position 
-                if (direction == 1) {position++;}
-                else {position--;}
-            }
-
-            // Disable the motor
-            set_pin(axis_info.ena_pin, 1);
-            sleep_ms(ENA_SETTLE_TIME_MS);
+        // Set direction
+        if (direction == 1) {
+            set_pin(axis_info.dir_pin, 1);
         }
-
         else {
-            printf("Step skipped due to errors.\n\n");
+            set_pin(axis_info.dir_pin, 0);
         }
+        sleep_ms(DIR_TIME_MS);
+
+        // Step the motor
+        if (check_emergency_stop() == 0 || force_step == 1) {  // Check for emergency stop in case it's been triggered since the last check
+            set_pin(axis_info.pul_pin, 1);
+            sleep_ms(PUL_TIME_MS);
+            set_pin(axis_info.pul_pin, 0);
+
+            // Update position 
+            if (direction == 1) {position++;}
+            else {position--;}
+        }
+
+        // Disable the motor
+        set_pin(axis_info.ena_pin, 1);
+        sleep_ms(ENA_SETTLE_TIME_MS);
     
     }
 
