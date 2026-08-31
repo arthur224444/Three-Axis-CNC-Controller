@@ -36,7 +36,7 @@ pico_sdk_init()
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(pico2_w 
-               pico2_w.c 
+               main.c 
                pin.c
                axis.c
                x_axis.c
