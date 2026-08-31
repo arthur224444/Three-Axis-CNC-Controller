@@ -13,6 +13,7 @@
 #include "z_axis.h"
 #include "emergency_stop.h"
 #include "limit_switches.h"
+#include "spindle.h"
 
 
 #define SEQUENCE_LENGTH 10
@@ -68,12 +69,22 @@ int main() {
                     step_z(-1);
 
                 }
+                else if (current_step == 'S') {
+                    spindle_on_off(1);
+
+                }
+                else if (current_step == 's') {
+                    spindle_on_off(0);
+
+                }
                 else {
 
                 }
             }
 
             else {
+                spindle_on_off(0);
+
                 success = '0';
             }
         }
