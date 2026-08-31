@@ -2,6 +2,12 @@ import time
 import serial
 
 ser = serial.Serial("/dev/ttyACM0", 115200, timeout=2)
+
+MESSAGE_LENGTH = 10
+MESSAGE_PADDING = "n"
+MESSAGE_TIMEOUT_PER_COMMAND = 1
+MESSAGE_TIMEOUT = MESSAGE_LENGTH * MESSAGE_TIMEOUT_PER_COMMAND
+
 time.sleep(2)  # Pico resets when the port is opened
 
 message = "SXxYysZz"

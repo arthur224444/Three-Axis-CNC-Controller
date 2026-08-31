@@ -1,5 +1,7 @@
+#include "spindle.h"
 #include "pico/stdlib.h"
 #include "pin.h"
+#include "emergency_stop.h"
 
 
 static const int SPINDLE_ENABLE_PIN = 0;
@@ -18,7 +20,7 @@ int spindle_on_off(int enable) {
     }
 
     if (enable == 1) {
-        if check_emergency_stop() == 0) {
+        if (check_emergency_stop() == 0) {
             set_pin(SPINDLE_ENABLE_PIN, 1);
         }
     }

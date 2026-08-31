@@ -11,8 +11,9 @@ typedef struct {
 typedef struct {
     int position;
     int pins_initialised;
+    int success;
 } StepReturnData;
 
-StepReturnData step(AxisInfo, int, int, int);
+StepReturnData step(AxisInfo, int, int, int, int);
 
 #endif

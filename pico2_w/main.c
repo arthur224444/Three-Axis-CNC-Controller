@@ -37,6 +37,7 @@ int main() {
         }
 
         char success = '1';
+        int step_success = 1;
 
         for (int i = 0; i < SEQUENCE_LENGTH; i++) {
 
@@ -48,54 +49,59 @@ int main() {
             current_step = sequence[i];
 
             if (current_step == 'X') {
-                step_x(1, 0);
+                step_success = step_x(1, 0);
 
             }
             else if (current_step == 'x') {
-                step_x(-1, 0);
+                step_success = step_x(-1, 0);
 
             }
             else if (current_step == 'Y') {
-                step_y(1, 0);
+                step_success = step_y(1, 0);
 
             }
             else if (current_step == 'y') {
-                step_y(-1, 0);
+                step_success = step_y(-1, 0);
 
             }
             else if (current_step == 'Z') {
-                step_z(1, 0);
+                step_success = step_z(1, 0);
 
             }
             else if (current_step == 'z') {
-                step_z(-1, 0);
+                step_success = step_z(-1, 0);
 
             }
 
             // Force steps, ignoring emergency_stop
             else if (current_step == 'A') {
-                step_x(1, 1);
+                step_success = step_x(1, 1);
             
             }
             else if (current_step == 'a') {
-                step_x(-1, 1);
+                step_success = step_x(-1, 1);
             
             }
             else if (current_step == 'B') {
-                step_y(1, 1);
+                step_success = step_y(1, 1);
             
             }
             else if (current_step == 'b') {
-                step_y(-1, 1);
+                step_success = step_y(-1, 1);
             
             }
             else if (current_step == 'C') {
-                step_z(1, 1);
+                step_success = step_z(1, 1);
             
             }
             else if (current_step == 'c') {
-                step_z(-1, 1);
+                step_success = step_z(-1, 1);
             
+            }
+
+            // Handle padding characters
+            else if (current_step == 'n') {
+                // Do nothing
             }
 
             // Spindle on/off
@@ -120,6 +126,10 @@ int main() {
             else {
                 spindle_on_off(0);
 
+                success = '0';
+            }
+
+            if (step_success == 0) {
                 success = '0';
             }
         }

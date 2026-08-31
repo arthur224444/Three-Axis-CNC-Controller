@@ -1,3 +1,4 @@
+#include "limit_switches.h"
 #include "pin.h"
 #include "pico/stdlib.h"
 #include "emergency_stop.h"
@@ -48,7 +49,7 @@ void monitor_limit_switches() {
     // This is for continuously monitoring whether the limit switches have been pressed
     // It should be ran on Core1 of the Pico 2W
     while (true) {
-        if (check_limit_switches()) {
+        if (check_limit_switches() == 1) {
             emergency_stop();
         }
     }

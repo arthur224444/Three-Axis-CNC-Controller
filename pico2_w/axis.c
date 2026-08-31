@@ -23,7 +23,7 @@ void initialise_axis_pins(int stepper_pul_pin, int stepper_dir_pin, int stepper_
 
 
 StepReturnData step(AxisInfo axis_info, int pins_initialised, int position, int direction, int force_step) {
-    int skip = 0;
+    int success = 0;
 
     // Initialise the pins if they're not already initialised
     if (pins_initialised == 0) {
@@ -60,17 +60,15 @@ StepReturnData step(AxisInfo axis_info, int pins_initialised, int position, int 
         // Disable the motor
         set_pin(axis_info.ena_pin, 1);
         sleep_ms(ENA_SETTLE_TIME_MS);
-    
-    }
 
-    else {
-        printf("Emergency stop reached so step was skipped\n");
+        success = 1;
     }
 
     // Assemble return data
     StepReturnData data;
     data.pins_initialised = pins_initialised;
     data.position = position;
+    data.success = success;
 
     return data;
 }

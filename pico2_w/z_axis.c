@@ -1,4 +1,4 @@
-#include "x_axis.h"
+#include "z_axis.h"
 #include "axis.h"
 
 
@@ -15,11 +15,13 @@ int step_z(int direction, int force_step) {
 
     static int pins_initialised = 0;
     static int position = 0;
+    int success;
 
     // Make the step
     StepReturnData step_data = step(axis_info, pins_initialised, position, direction, force_step);
     pins_initialised = step_data.pins_initialised;
     position = step_data.position;
+    success = step_data.success;
  
-    return position;
+    return success;
 }
