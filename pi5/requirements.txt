@@ -1,2 +1,10 @@
+# spidev is Pi/Linux-only and is not used by the HTTP API. Comment out on Windows.
 spidev==3.8
 pyserial==3.5
+fastapi==0.115.12
+uvicorn==0.34.3
+pydantic==2.11.4
+pydantic-settings==2.9.1
+python-dotenv==1.1.0
+httpx==0.28.1
+pytest==8.3.5

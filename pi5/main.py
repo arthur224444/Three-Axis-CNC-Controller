@@ -1,3 +1,10 @@
+"""Low-level USB-serial smoke test for the Pico 2 W firmware.
+
+Prefer the FastAPI service in `cnc_api/` for normal use (see README.md).
+This script is kept as a direct serial loop for firmware bring-up on a
+desktop (hence COM3) without standing up the HTTP API.
+"""
+
 import time
 import serial
 
