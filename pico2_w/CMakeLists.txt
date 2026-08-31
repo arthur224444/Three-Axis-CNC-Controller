@@ -42,6 +42,7 @@ add_executable(pico2_w
                x_axis.c
                y_axis.c
                z_axis.c
+               spindle.c
                emergency_stop.c
                limit_switches.c
 )

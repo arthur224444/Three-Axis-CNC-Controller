@@ -2,7 +2,7 @@
 #include "pin.h"
 
 
-SPINDLE_ENABLE_PIN = 0;
+static const int SPINDLE_ENABLE_PIN = 0;
 
 
 static void initialise_pins(int spindle_enable_pin) {

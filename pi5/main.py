@@ -1,7 +1,7 @@
 import time
 import serial
 
-ser = serial.Serial("/dev/ttyACM0", 115200, timeout=2)
+ser = serial.Serial("COM3", 115200, timeout=2)
 time.sleep(2)  # Pico resets when the port is opened
 
 message = "SXxYysZz"
