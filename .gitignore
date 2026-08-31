@@ -6,3 +6,8 @@ __pycache__/
 .pytest_cache/
 frontend/node_modules/
 frontend/dist/
+
+# Vite production UI. npm run build writes here; FastAPI serves it.
+# Keep pi5/static/ in git so a Pi checkout does not need Node.js.
+!pi5/static/
+!pi5/static/**
