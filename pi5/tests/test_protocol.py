@@ -14,7 +14,7 @@ from cnc_api.protocol import (
 
 
 def test_validate_accepts_full_alphabet() -> None:
-    validate_commands("XxYyZzAaBbCcSsRn")
+    validate_commands("XxYyZzAaBbCcSsERn")
 
 
 def test_validate_rejects_unknown_character_with_index() -> None:
