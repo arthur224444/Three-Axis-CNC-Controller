@@ -217,6 +217,18 @@ def spindle_off(
 
 
 @machine_router.post(
+    "/emergency-stop",
+    response_model=CommandResponse,
+    summary="Emergency stop (protocol E)",
+)
+def emergency_stop(
+    controller: Annotated[CncController, Depends(get_controller)],
+    body: CommandRequest | None = None,
+) -> CommandResponse:
+    return _send_repeated(controller, "E", body)
+
+
+@machine_router.post(
     "/emergency-stop/reset",
     response_model=CommandResponse,
     summary="Reset emergency stop (protocol R)",

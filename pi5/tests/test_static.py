@@ -35,7 +35,7 @@ def test_get_root_serves_html_when_index_present(
 
         catalog = client.get("/commands")
         assert catalog.status_code == 200
-        assert set(catalog.json()["alphabet"]) == set("XxYyZzAaBbCcSsRn")
+        assert set(catalog.json()["alphabet"]) == set("XxYyZzAaBbCcSsERn")
 
         docs = client.get("/docs")
         assert docs.status_code == 200

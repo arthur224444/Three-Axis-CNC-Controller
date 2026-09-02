@@ -122,6 +122,11 @@ int main() {
 
             }
 
+            // Trigger emergency stop
+            else if (current_step == 'E') {
+                emergency_stop();
+            }
+
             
             else {
                 spindle_on_off(0);

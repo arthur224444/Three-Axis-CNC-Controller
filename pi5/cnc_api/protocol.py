@@ -13,7 +13,7 @@ MESSAGE_PADDING = "n"
 
 # Characters the firmware recognises. Anything else is rejected by the API
 # before it reaches the serial port (unrecognised chars also drop the spindle).
-VALID_CHARACTERS = frozenset("XxYyZzAaBbCcSsRn")
+VALID_CHARACTERS = frozenset("XxYyZzAaBbCcSsERn")
 
 
 @dataclass(frozen=True)
@@ -108,6 +108,12 @@ COMMAND_SPECS: tuple[CommandSpec, ...] = (
         "/spindle/off",
         "Spindle off",
         "Turn the spindle off.",
+    ),
+    CommandSpec(
+        "E",
+        "/emergency-stop",
+        "Emergency stop",
+        "Latch emergency stop: spindle off, normal jogs refused until reset.",
     ),
     CommandSpec(
         "R",

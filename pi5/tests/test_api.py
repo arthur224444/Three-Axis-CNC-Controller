@@ -29,7 +29,7 @@ def test_commands_catalog_requires_no_auth(client: TestClient) -> None:
     assert response.status_code == 200
     body = response.json()
     characters = {item["character"] for item in body["commands"]}
-    assert characters == set("XxYyZzAaBbCcSsRn")
+    assert characters == set("XxYyZzAaBbCcSsERn")
     assert body["message_length"] == 10
     assert body["padding"] == "n"
 
@@ -132,6 +132,22 @@ def test_invalid_character_rejected_before_serial(
     assert _frames(client) == []
 
 
+def test_emergency_stop_character_is_accepted_in_batch(
+    client: TestClient, auth_headers: dict[str, str]
+) -> None:
+    response = client.post(
+        "/commands",
+        headers=auth_headers,
+        json={"commands": "sE"},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["success"] is True
+    assert body["frames_sent"] == ["sEnnnnnnnn"]
+    assert body["commands_executed"] == 2
+    assert _frames(client) == ["sEnnnnnnnn"]
+
+
 def test_zero_reply_stops_and_reports_failing_frame(
     client: TestClient,
     auth_headers: dict[str, str],
@@ -220,6 +236,7 @@ def test_forced_and_spindle_paths_map_to_protocol_characters(
         ("/axis/y/forward/forced", "B"),
         ("/axis/z/backward/forced", "c"),
         ("/spindle/on", "S"),
+        ("/emergency-stop", "E"),
         ("/emergency-stop/reset", "R"),
     ]
     for path, character in expected:

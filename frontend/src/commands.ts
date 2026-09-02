@@ -1,5 +1,5 @@
 /** Firmware alphabet. Letter case is significant. */
-export const PROTOCOL_ALPHABET = "XxYyZzAaBbCcSsRn";
+export const PROTOCOL_ALPHABET = "XxYyZzAaBbCcSsERn";
 
 export type CommandDef = {
   letter: string;
@@ -35,6 +35,12 @@ export const SPINDLE_OFF: CommandDef = {
   letter: "s",
   label: "Spindle off (s)",
   path: "/spindle/off",
+};
+
+export const ESTOP_TRIGGER: CommandDef = {
+  letter: "E",
+  label: "Emergency stop (E)",
+  path: "/emergency-stop",
 };
 
 export const ESTOP_RESET: CommandDef = {
