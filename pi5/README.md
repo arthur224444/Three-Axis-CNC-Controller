@@ -182,6 +182,7 @@ frames, padding the last frame with `n`.
 | POST | `/axis/z/backward/forced` | `c` | −1 step Z even during emergency stop |
 | POST | `/spindle/on` | `S` | Spindle on (ignored if emergency stop is active) |
 | POST | `/spindle/off` | `s` | Spindle off |
+| POST | `/emergency-stop` | `E` | Latch emergency stop (spindle off; normal jogs refused until reset) |
 | POST | `/emergency-stop/reset` | `R` | Clear the emergency-stop latch |
 | POST | `/noop` | `n` | No-op / padding |
 | POST | `/commands` | *(batch)* | Arbitrary string of the characters above |
@@ -230,6 +231,13 @@ curl -s -X POST http://192.168.1.50:8000/commands \
   -H "X-CNC-Passphrase: PASS" \
   -H "Content-Type: application/json" \
   -d '{"commands": "XYzzxxxZZZZZ"}'
+```
+
+Trigger emergency stop:
+
+```bash
+curl -s -X POST http://192.168.1.50:8000/emergency-stop \
+  -H "X-CNC-Passphrase: PASS"
 ```
 
 Reset emergency stop, then a forced X jog:
