@@ -12,6 +12,8 @@
   --spindle-on: #8b1e1e;
   --spindle-off: #3a4454;
   --estop: #8a7a16;
+  --estop-trigger: #9b1b1b;
+  --estop-trigger-active: #c42323;
   --ok: #2f6b45;
   --fail: #7a2e2e;
   --busy: #3d4a62;
@@ -196,6 +198,25 @@ h2 {
 .btn-spindle-on {
   background: var(--spindle-on);
   font-weight: 650;
+}
+
+.estop-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.btn-estop-trigger {
+  width: 100%;
+  min-height: 4rem;
+  background: var(--estop-trigger);
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.btn-estop-trigger:not(:disabled):active {
+  background: var(--estop-trigger-active);
 }
 
 .btn-estop {

@@ -8,6 +8,7 @@ import {
 } from "./api";
 import {
   ESTOP_RESET,
+  ESTOP_TRIGGER,
   FORCED,
   JOG,
   NOOP,
@@ -273,6 +274,12 @@ export default function App() {
     void runCommand((passphrase) => postSingleCommand(command.path, passphrase, repeat));
   }
 
+  function handleEstopTrigger(_command: CommandDef) {
+    void runCommand((passphrase) =>
+      postSingleCommand(ESTOP_TRIGGER.path, passphrase, 1),
+    );
+  }
+
   function handleBatch() {
     const commands = commandString;
     if (commands.length === 0) {
@@ -378,13 +385,24 @@ export default function App() {
 
       <section className="panel panel-estop">
         <h2>Emergency stop</h2>
-        <p className="hint">Clears the firmware e-stop latch so normal jogs can resume.</p>
-        <CommandButton
-          command={ESTOP_RESET}
-          disabled={busy}
-          className="btn btn-estop"
-          onSend={handleSingle}
-        />
+        <p className="hint">
+          Trigger latches e-stop and cuts the spindle. Reset clears the latch so
+          normal jogs can resume. Trigger always sends once, ignoring Repeat.
+        </p>
+        <div className="estop-stack">
+          <CommandButton
+            command={ESTOP_TRIGGER}
+            disabled={false}
+            className="btn btn-estop-trigger"
+            onSend={handleEstopTrigger}
+          />
+          <CommandButton
+            command={ESTOP_RESET}
+            disabled={busy}
+            className="btn btn-estop"
+            onSend={handleSingle}
+          />
+        </div>
       </section>
 
       <section className="panel">
@@ -399,7 +417,7 @@ export default function App() {
 
       <section className="panel">
         <h2>Repeat</h2>
-        <p className="hint">Applies to the single-command buttons above (1–100), not the string.</p>
+        <p className="hint">Applies to the single-command buttons above (1–100), not the string or emergency-stop trigger.</p>
         <label className="repeat">
           <span>Times</span>
           <input
